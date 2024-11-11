@@ -21,71 +21,64 @@
   STEP-8: Repeat the above steps to generate the entire cipher text.
   
 ## PROGRAM:
-    #include <stdio.h>
-    #include <string.h>
-    #include <ctype.h>
-    #define MAX 100
-    void generateVigenereMatrix(char matrix[26][26]) {
-    char alphabet = 'A';
-    for (int i = 0; i < 26; i++) {
-        for (int j = 0; j < 26; j++) {
-            matrix[i][j] = alphabet;
-            alphabet++;
-            if (alphabet > 'Z') alphabet = 'A';
+```
+#include <stdio.h>
+#include <string.h>
+
+// Function to perform Vigenere encryption
+void vigenereEncrypt(char *text, const char *key) {
+    int textLen = strlen(text);
+    int keyLen = strlen(key);
+
+    for (int i = 0; i < textLen; i++) {
+        char c = text[i];
+        if (c >= 'A' && c <= 'Z') {
+            // Encrypt uppercase letters
+            text[i] = ((c - 'A' + key[i % keyLen] - 'A') % 26) + 'A';
+        } else if (c >= 'a' && c <= 'z') {
+            // Encrypt lowercase letters
+            text[i] = ((c - 'a' + key[i % keyLen] - 'A') % 26) + 'a';
         }
     }
-    }
+}
 
-    void encrypt(char plaintext[], char keyword[], char ciphertext[]) {
-    char vigenereMatrix[26][26];
-    generateVigenereMatrix(vigenereMatrix);
+// Function to perform Vigenere decryption
+void vigenereDecrypt(char *text, const char *key) {
+    int textLen = strlen(text);
+    int keyLen = strlen(key);
 
-    int lenPlaintext = strlen(plaintext);
-    int lenKeyword = strlen(keyword);
-
-    for (int i = 0, j = 0; i < lenPlaintext; i++) {
-        if (isalpha(plaintext[i])) {
-            int row = toupper(plaintext[i]) - 'A';
-            int col = toupper(keyword[j]) - 'A';
-            ciphertext[i] = vigenereMatrix[row][col];
-            j = (j + 1) % lenKeyword;
-        } else {
-            ciphertext[i] = plaintext[i];  
+    for (int i = 0; i < textLen; i++) {
+        char c = text[i];
+        if (c >= 'A' && c <= 'Z') {
+            // Decrypt uppercase letters
+            text[i] = ((c - 'A' - (key[i % keyLen] - 'A') + 26) % 26) + 'A';
+        } else if (c >= 'a' && c <= 'z') {
+            // Decrypt lowercase letters
+            text[i] = ((c - 'a' - (key[i % keyLen] - 'A') + 26) % 26) + 'a';
         }
     }
-    ciphertext[lenPlaintext] = '\0';  
-    }
+}
 
-    int main() {
-    char plaintext[MAX], keyword[MAX], ciphertext[MAX];
+int main() {
+    const char *key = "KEY";  // Replace with your desired key
+    char message[] = "alliswell";  // Replace with your message
 
-    printf("Enter the plaintext: ");
-    fgets(plaintext, MAX, stdin);
-    plaintext[strcspn(plaintext, "\n")] = '\0';  
+    // Encrypt the message
+    vigenereEncrypt(message, key);
+    printf("Encrypted Message: %s\n", message);
 
-    printf("Enter the keyword: ");
-    fgets(keyword, MAX, stdin);
-    keyword[strcspn(keyword, "\n")] = '\0';  
-    for (int i = 0; keyword[i]; i++) {
-        keyword[i] = toupper(keyword[i]);
-    }
-    for (int i = 0; plaintext[i]; i++) {
-        plaintext[i] = toupper(plaintext[i]);
-    }
-
-    encrypt(plaintext, keyword, ciphertext);
-
-    printf("Ciphertext: %s\n", ciphertext);
+    // Decrypt the message back to the original
+    vigenereDecrypt(message, key);
+    printf("Decrypted Message: %s\n", message);
 
     return 0;
-    }
+}
 
+```
 
 ## OUTPUT:
-Enter the plaintext: happybirthday
+![Screenshot 2024-11-08 191317](https://github.com/user-attachments/assets/8172c0e5-a9c0-4fcd-aee5-51cae4eedd86)
 
-Enter the keyword: quiz
 
-Ciphertext: QUIZQUIZQUIZQ
 ## RESULT:
   Thus the Vigenere Cipher substitution technique had been implemented successfully.
