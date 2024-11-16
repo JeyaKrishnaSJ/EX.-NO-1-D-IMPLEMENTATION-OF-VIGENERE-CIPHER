@@ -24,12 +24,9 @@
 ```
 #include <stdio.h>
 #include <string.h>
-
-// Function to perform Vigenere encryption
 void vigenereEncrypt(char *text, const char *key) {
     int textLen = strlen(text);
     int keyLen = strlen(key);
-
     for (int i = 0; i < textLen; i++) {
         char c = text[i];
         if (c >= 'A' && c <= 'Z') {
@@ -41,36 +38,25 @@ void vigenereEncrypt(char *text, const char *key) {
         }
     }
 }
-
-// Function to perform Vigenere decryption
 void vigenereDecrypt(char *text, const char *key) {
     int textLen = strlen(text);
     int keyLen = strlen(key);
-
     for (int i = 0; i < textLen; i++) {
         char c = text[i];
         if (c >= 'A' && c <= 'Z') {
-            // Decrypt uppercase letters
             text[i] = ((c - 'A' - (key[i % keyLen] - 'A') + 26) % 26) + 'A';
         } else if (c >= 'a' && c <= 'z') {
-            // Decrypt lowercase letters
             text[i] = ((c - 'a' - (key[i % keyLen] - 'A') + 26) % 26) + 'a';
         }
     }
 }
-
 int main() {
     const char *key = "KEY";  // Replace with your desired key
     char message[] = "alliswell";  // Replace with your message
-
-    // Encrypt the message
     vigenereEncrypt(message, key);
     printf("Encrypted Message: %s\n", message);
-
-    // Decrypt the message back to the original
     vigenereDecrypt(message, key);
     printf("Decrypted Message: %s\n", message);
-
     return 0;
 }
 
@@ -78,7 +64,6 @@ int main() {
 
 ## OUTPUT:
 ![Screenshot 2024-11-08 191317](https://github.com/user-attachments/assets/8172c0e5-a9c0-4fcd-aee5-51cae4eedd86)
-
 
 ## RESULT:
   Thus the Vigenere Cipher substitution technique had been implemented successfully.
